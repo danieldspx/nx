@@ -46,7 +46,7 @@ export interface NxPlugin {
 let nxPluginCache: NxPlugin[] = null;
 export function loadNxPlugins(
   plugins?: string[],
-  paths = [workspaceRoot],
+  paths: string[] = [],
   root = workspaceRoot
 ): NxPlugin[] {
   return plugins?.length
@@ -54,6 +54,7 @@ export function loadNxPlugins(
         (nxPluginCache = plugins.map((moduleName) => {
           let pluginPath: string;
           try {
+            if (!paths.includes(workspaceRoot)) paths = [...paths, workspaceRoot];
             pluginPath = require.resolve(moduleName, {
               paths,
             });
